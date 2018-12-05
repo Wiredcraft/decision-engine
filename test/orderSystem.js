@@ -148,5 +148,33 @@
        })
      })
    })
+   describe('rule manager', function () {
+     after(function () {
+       ruleEngine.deleteRule('10', 'discount')
+     })
+     it('only remove specific rule', function (done) {
+       const rule1 = require('./orderSystem/discount.json')
+       const rule2 = JSON.parse(JSON.stringify(rule1))
+       rule2.name = '11'
+       ruleEngine.addRule(rule1)
+       ruleEngine.addRule(rule2)
+       fact.order.price = 2000
+       fact.order.items.push({name: 'coffee mug', id: 'skuid5'})
+       ruleEngine.run(fact, 'discount', function (err, result) {
+         if (err) done(err)
+         else {
+           assert.ok(result.indexOf('10') > -1)
+         }
+       })
+       ruleEngine.deleteRule(rule2.name, rule2.group)
+       ruleEngine.run(fact, 'discount', function (err, result) {
+         if (err) done(err)
+         else {
+           assert.ok(result.indexOf('10') > -1)
+           done()
+         }
+       })
+     })
+   })
  })
 

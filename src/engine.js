@@ -31,7 +31,7 @@ module.exports = function RuleEngine () {
   RuleEngine.deleteRule = function (name, group) {
     if (_rules[group]) {
       _rules[group] = _rules[group].filter(function (arg) {
-        return group !== arg.group && name !== arg.name
+        return name !== arg.name
       })
     }
   }
