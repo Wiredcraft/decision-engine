@@ -9,6 +9,7 @@ module.exports = function RuleEngine () {
   var _rules = {}
 
   RuleEngine.addRule = function (rule) {
+    if (RuleEngine.hasRule(rule)) { return }
     _rules[rule.group] = _rules[rule.group] || []
     conditions.parse(rule.conditions, function (err, result) {
       if (result) {
@@ -55,5 +56,19 @@ module.exports = function RuleEngine () {
             cb)
   }
 
+  RuleEngine.getRules = function (group) {
+    if (group) {
+      return JSON.parse(JSON.stringify(_rules[group] || []))
+    } else {
+      return JSON.parse(JSON.stringify(_rules))
+    }
+  }
+
+  RuleEngine.hasRule = function (rule) {
+    const target = (_rules[rule.group] || []).filter(function (arg) {
+      return rule.name === arg.name
+    })
+    return target.length === 1
+  }
   return RuleEngine
 }
