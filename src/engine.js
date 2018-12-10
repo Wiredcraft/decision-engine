@@ -58,9 +58,9 @@ module.exports = function RuleEngine () {
 
   RuleEngine.getRules = function (group) {
     if (group) {
-      return JSON.stringify(JSON.parse(_rules[group]))
+      return JSON.parse(JSON.stringify(_rules[group] || []))
     } else {
-      return JSON.stringify(JSON.parse(_rules))
+      return JSON.parse(JSON.stringify(_rules))
     }
   }
 

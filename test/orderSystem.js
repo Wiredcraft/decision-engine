@@ -218,5 +218,10 @@ describe('order system rule engine', function () {
         }
       })
     })
+
+    it('should return specific group rules', function () {
+      assert.ok(ruleEngine.getRules('discount').length > 0)
+      assert.ok(ruleEngine.getRules('no existed').length === 0)
+    })
   })
 })
